@@ -1,7 +1,8 @@
 require_relative 'state_machine'
 
 #First, generate the name of the location where this story takes place
-noun = ["hat", "car keys", "wedding", "sorrow", "violin case", "flower"].sample.capitalize
+puts "Please give me the name of a noun."
+noun = gets.chomp.capitalize
 
 noun += " " + ['museum','plaza','center','foundation','academy'].sample.capitalize
 
