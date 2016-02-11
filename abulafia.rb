@@ -1,4 +1,5 @@
 require_relative 'state_machine'
+require 'yaml'
 
 #First, generate the name of the location where this story takes place
 puts "Please give me the name of a noun."
@@ -14,6 +15,10 @@ noun += " " + ['museum','plaza','center','foundation','academy'].sample.capitali
 # Reduce to 5 stories, only pull 3 passages, then random beginning and endinhg
 
 #Er...now I have 6 stories, pulling 3 passages each. 6 stories, pull 3 ...means 6*5*4 = 120 possibilities. This should meet their critera for unique stories.
+
+filler = YAML::load_file(File.join(__dir__, 'filler.yml'))
+introduction = filler["introduction"]
+conclusion = filler["conclusion"]
 
 skyscraperdeath = StateMachine.new(:skyscraperdeath, "I stopped off at the #{noun} and ordered the best burger the city has to offer, when in walks Investigator Blake—looking for me, as usual. Turned out George Cobb managed to get himself wasted. Looks like our late lamented unfortunate soul got worked over by a lead pipe. Autopsy results showed up late yesterday. “Dammit,” I growled.",{
   :date_gone_wrong => "Miss Kitty Baker just smiled at me and left my office. She said that I would receive her message at the #{noun}. Confused, I decided to walk into the tiger's maw...to the cursed skyscraper itself. If it was a trap, I would be ready for it.",
@@ -70,8 +75,13 @@ major_breakthrough = StateMachine.new(:major_breakthrough,"I had little to go on
 array = [skyscraperdeath,date_gone_wrong,george_message,babysitting,origin_story,major_breakthrough]
 array = array.shuffle.take(3)
 previous_state = nil
+
+puts introduction.sample
+
 array.each do |element|
   puts element.transition_from(previous_state) if previous_state
   puts element.sentence
   previous_state = element.state
 end
+
+puts conclusion.sample
