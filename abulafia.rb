@@ -76,12 +76,16 @@ array = [skyscraperdeath,date_gone_wrong,george_message,babysitting,origin_story
 array = array.shuffle.take(3)
 previous_state = nil
 
-puts introduction.sample
+story = []
+
+story << introduction.sample
 
 array.each do |element|
-  puts element.transition_from(previous_state) if previous_state
-  puts element.sentence
+  story << element.transition_from(previous_state) if previous_state
+  story << element.sentence
   previous_state = element.state
 end
 
-puts conclusion.sample
+story << conclusion.sample
+
+puts story.join("\n\n")
